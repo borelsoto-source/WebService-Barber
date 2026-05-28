@@ -8,19 +8,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.barber.agenda_barber.entities.Client;
-import com.barber.agenda_barber.services.ClientService;
+import com.barber.agenda_barber.entities.Barber;
+import com.barber.agenda_barber.services.BarberService;
 
 @RestController
-@RequestMapping(value = "/clients")
-public class ClientResource {
+@RequestMapping(value = "/barbers")
+public class BarberResource {
 	
 	@Autowired
-	public ClientService service;
+	public BarberService service;
 	
 	@GetMapping	
-	public ResponseEntity <List<Client>> findAll(){
-		List<Client> list = service.findAll();
+	public ResponseEntity <List<Barber>> findAll(){
+		List<Barber> list = service.findAll();
 		return ResponseEntity.ok().body(list);
 	}
 }

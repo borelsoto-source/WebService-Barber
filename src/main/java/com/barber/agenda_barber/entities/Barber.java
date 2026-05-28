@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import com.barber.agenda_barber.enums.Speciality;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,29 +15,28 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "tb_client")
-public class Client implements Serializable{
+@Table(name = "tb_barber")
+public class Barber implements Serializable{
+
 	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
-	private String email;
-	private String phone;
+	private Integer speciality;
 	
-	@OneToMany(mappedBy = "client")
+	@OneToMany(mappedBy = "barber")
 	private Set<Scheduling> schedulings = new HashSet<>();
 	
-	public Client() {
+	public Barber() {
 	}
 
-	public Client(Long id, String name, String email, String phone) {
+	public Barber(Long id, String name, Speciality speciality) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.email = email;
-		this.phone = phone;
+		setSpeciality(speciality);
 	}
 
 	public Long getId() {
@@ -54,23 +55,18 @@ public class Client implements Serializable{
 		this.name = name;
 	}
 
-	public String getEmail() {
-		return email;
+	public Speciality getSpeciality() {
+		return Speciality.valueOf(speciality);
+	}
+	//USANDO O METEDO valueOf DO ENUM PARA PASSAR O OrderStatus QUE AQUI NESSA CLASSE E DO TIPO INTEGER
+
+	public void setSpeciality(Speciality speciality) {
+		if(speciality != null) {
+			this.speciality = speciality.getCode();
+		}	
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-	
-	public Set<Scheduling> getScheduling(){
+	public Set<Scheduling> getScheduling() {
 		return schedulings;
 	}
 
@@ -87,7 +83,7 @@ public class Client implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Client other = (Client) obj;
+		Barber other = (Barber) obj;
 		return Objects.equals(id, other.id);
 	}
 	
