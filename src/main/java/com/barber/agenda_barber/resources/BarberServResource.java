@@ -13,30 +13,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.barber.agenda_barber.entities.Client;
-import com.barber.agenda_barber.services.ClientService;
+import com.barber.agenda_barber.entities.BarberServ;
+import com.barber.agenda_barber.services.BarberServService;
 
 @RestController
-@RequestMapping(value = "/clients")
-public class ClientResource {
+@RequestMapping(value = "/barberservs")
+public class BarberServResource {
 	
 	@Autowired
-	public ClientService service;
+	public BarberServService service;
 	
 	@GetMapping	
-	public ResponseEntity <List<Client>> findAll(){
-		List<Client> list = service.findAll();
+	public ResponseEntity <List<BarberServ>> findAll(){
+		List<BarberServ> list = service.findAll();
 		return ResponseEntity.ok().body(list);
 	}
 	
+
 	@GetMapping(value = "/{id}")
-	public ResponseEntity <Client> findById(@PathVariable Long id) {
-		Client obj = service.findById(id);
+	public ResponseEntity <BarberServ> findById(@PathVariable Long id) {
+		BarberServ obj = service.findById(id);
 		return ResponseEntity.ok().body(obj);
 	}
 	
 	@PostMapping
-	public ResponseEntity <Client> insert(@RequestBody Client obj){
+	public ResponseEntity <BarberServ> insert(@RequestBody BarberServ obj){
 		obj = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).body(obj);

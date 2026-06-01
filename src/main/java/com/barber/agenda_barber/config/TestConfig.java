@@ -9,11 +9,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import com.barber.agenda_barber.entities.Barber;
+import com.barber.agenda_barber.entities.BarberServ;
 import com.barber.agenda_barber.entities.Client;
 import com.barber.agenda_barber.entities.Scheduling;
 import com.barber.agenda_barber.enums.SchedulingStatus;
 import com.barber.agenda_barber.enums.Speciality;
 import com.barber.agenda_barber.repositories.BarberRepository;
+import com.barber.agenda_barber.repositories.BarberServRepository;
 import com.barber.agenda_barber.repositories.ClientRepository;
 import com.barber.agenda_barber.repositories.SchedulingRepository;
 
@@ -29,9 +31,18 @@ public class TestConfig implements CommandLineRunner {
 	
 	@Autowired
 	public SchedulingRepository schedulingRepository;
+	
+	@Autowired
+	public BarberServRepository barberServRepository;
 
 	@Override
 	public void run(String... args) throws Exception {
+		
+		BarberServ serv1 = new BarberServ(null, "Corte", 45.00, 30);
+		BarberServ serv2 = new BarberServ(null, "Barba", 20.00, 15);
+		BarberServ serv3 = new BarberServ(null, "Sombrancelha", 10.00, 5);
+		
+		barberServRepository.saveAll(Arrays.asList(serv1, serv2, serv3));
 		
 		Client c1 = new Client(null, "Joao", "joao@email.com", "1199999999");
 		Client c2 = new Client(null, "Maria", "Maria@email.com", "1399999999");
@@ -42,10 +53,15 @@ public class TestConfig implements CommandLineRunner {
 		clientRepository.saveAll(Arrays.asList(c1 , c2));
 		barberRepository.saveAll(Arrays.asList(b1, b2));
 		
+		b1.getServices().addAll(Arrays.asList(serv1, serv2));
+		b2.getServices().addAll(Arrays.asList(serv1, serv3));
+		barberRepository.saveAll(Arrays.asList(b1, b2));
+		
 		Scheduling s1 = new Scheduling(null, Instant.now(), SchedulingStatus.AGENDADO, c1, b2, 45.00);
 		Scheduling s2 = new Scheduling(null, Instant.now(), SchedulingStatus.CONCLUIDO, c1, b1, 25.00);
+		Scheduling s3 = new Scheduling(null, Instant.now(), SchedulingStatus.AGENDADO, c2, b2, 45.00);
 		
-		schedulingRepository.saveAll(Arrays.asList(s1,s2));
+		schedulingRepository.saveAll(Arrays.asList(s1,s2,s3));
 		
 	}
 		

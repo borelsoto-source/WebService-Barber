@@ -1,43 +1,39 @@
 package com.barber.agenda_barber.entities;
 
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "tb_client")
-public class Client implements Serializable{
-	private static final long serialVersionUID = 1L;
-	
+@Table(name = "tb_service")
+public class BarberServ {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
-	private String email;
-	private String phone;
+	private Double price;
+	private Integer duration;
 	
-	@OneToMany(mappedBy = "client")
-	private Set<Scheduling> schedulings = new HashSet<>();
+	@ManyToMany(mappedBy = "services")
+	private Set<Barber> barbers = new HashSet<>();
 	
-	public Client() {
+	public BarberServ() {
 	}
 
-	public Client(Long id, String name, String email, String phone) {
+	public BarberServ(Long id, String name, Double price, Integer duration) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.email = email;
-		this.phone = phone;
+		this.price = price;
+		this.duration = duration;
 	}
 
 	public Long getId() {
@@ -56,25 +52,24 @@ public class Client implements Serializable{
 		this.name = name;
 	}
 
-	public String getEmail() {
-		return email;
+	public Double getPrice() {
+		return price;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
+	public void setPrice(Double price) {
+		this.price = price;
 	}
 	
-	@JsonIgnore
-	public Set<Scheduling> getScheduling(){
-		return schedulings;
+	public Integer getDuration() {
+		return duration;
+	}
+
+	public void setDuration(Integer duration) {
+		this.duration = duration;
+	}
+
+	public Set<Barber> getBarbers() {
+		return barbers;
 	}
 
 	@Override
@@ -90,8 +85,9 @@ public class Client implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Client other = (Client) obj;
+		BarberServ other = (BarberServ) obj;
 		return Objects.equals(id, other.id);
 	}
+	
 	
 }

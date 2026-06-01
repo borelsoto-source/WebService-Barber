@@ -6,11 +6,15 @@ import java.util.Objects;
 import java.util.Set;
 
 import com.barber.agenda_barber.enums.Speciality;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -26,8 +30,14 @@ public class Barber implements Serializable{
 	private String name;
 	private Integer speciality;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "barber")
 	private Set<Scheduling> schedulings = new HashSet<>();
+	
+	@ManyToMany
+    @JoinTable(name = "tb_barber_service", joinColumns = @JoinColumn(name = "barber_id"),inverseJoinColumns = @JoinColumn(name = "service_id"))
+	private Set<BarberServ> services = new HashSet<>();
+	
 	
 	public Barber() {
 	}
@@ -66,8 +76,14 @@ public class Barber implements Serializable{
 		}	
 	}
 
-	public Set<Scheduling> getScheduling() {
+	@JsonIgnore
+	public Set<Scheduling> getSchedulings() {
 		return schedulings;
+	}
+	
+	@JsonIgnore
+	public Set<BarberServ> getServices() {
+		return services;
 	}
 
 	@Override
