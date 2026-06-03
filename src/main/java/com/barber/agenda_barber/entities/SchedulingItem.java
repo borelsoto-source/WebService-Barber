@@ -35,11 +35,12 @@ public class SchedulingItem implements Serializable{
 		return id.getScheduling();
 	}
 	
-	@JsonIgnore
+	
 	public BarberServ getBarberServ() {
 		return id.getBarberServ();
 	}
 	
+	@JsonIgnore
 	public SchedulingItemPk getId() {
 		return id;
 	}

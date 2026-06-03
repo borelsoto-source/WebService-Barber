@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,6 +27,7 @@ public class BarberServ implements Serializable {
 	private Double price;
 	private Integer duration;
 	
+	@JsonIgnore
 	@ManyToMany(mappedBy = "services")
 	private Set<Barber> barbers = new HashSet<>();
 	
@@ -32,6 +36,7 @@ public class BarberServ implements Serializable {
 	private Set<Scheduling> schedulings = new HashSet<>();
 	*/
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "id.barberServ")
 	private Set<SchedulingItem> items = new HashSet<>();
 	
@@ -82,6 +87,7 @@ public class BarberServ implements Serializable {
 		return barbers;
 	}
 
+	@JsonIgnore
 	public Set<SchedulingItem> getItems() {
 		return items;
 	}

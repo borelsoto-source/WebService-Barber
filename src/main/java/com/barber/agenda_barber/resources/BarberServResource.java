@@ -29,7 +29,6 @@ public class BarberServResource {
 		return ResponseEntity.ok().body(list);
 	}
 	
-
 	@GetMapping(value = "/{id}")
 	public ResponseEntity <BarberServ> findById(@PathVariable Long id) {
 		BarberServ obj = service.findById(id);

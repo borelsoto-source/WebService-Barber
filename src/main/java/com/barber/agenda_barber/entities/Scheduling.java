@@ -8,6 +8,7 @@ import java.util.Set;
 
 import com.barber.agenda_barber.enums.SchedulingStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -30,12 +31,12 @@ public class Scheduling implements Serializable{
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
 	private Instant date;
 	private Integer schedulingStatus;
-	private Double totalValue;
 	
 	@ManyToOne
 	@JoinColumn(name = "client_id")
 	private Client client;
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "barber_id")
 	private Barber barber;
@@ -53,14 +54,13 @@ public class Scheduling implements Serializable{
 	public Scheduling() {
 	}
 
-	public Scheduling(Long id, Instant date, SchedulingStatus schedulingStatus, Client client, Barber barber, Double totalValue) {
+	public Scheduling(Long id, Instant date, SchedulingStatus schedulingStatus, Client client, Barber barber) {
 		super();
 		this.id = id;
 		this.date = date;
 		setSchedulingStatus(schedulingStatus);
 		this.client = client;
 		this.barber = barber;
-		this.totalValue = totalValue;
 	}
 
 	public Long getId() {
@@ -89,14 +89,6 @@ public class Scheduling implements Serializable{
 			this.schedulingStatus = schedulingStatus.getCode();
 		}	
 	}
-
-	public Double getTotalValue() {
-		return totalValue;
-	}
-
-	public void setTotalValue(Double totalValue) {
-		this.totalValue = totalValue;
-	}
 	
 	public Client getClient() {
 		return client;
@@ -108,6 +100,14 @@ public class Scheduling implements Serializable{
 	
 	public Set<SchedulingItem> getItems() {
 		return items;
+	}
+	
+	public Double getTotal() {
+		double sum = 0.0;
+		for(SchedulingItem x : items) {
+			sum += x.getPrice();
+		}
+		return sum;
 	}
 
 	@Override

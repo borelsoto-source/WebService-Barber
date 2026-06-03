@@ -25,7 +25,6 @@ public class SchedulingResource {
 		return ResponseEntity.ok().body(list);
 	}
 	
-
 	@GetMapping(value = "/{id}")
 	public ResponseEntity <Scheduling> findById(@PathVariable Long id) {
 		Scheduling obj = service.findById(id);

@@ -81,7 +81,6 @@ public class Barber implements Serializable{
 		return schedulings;
 	}
 	
-	@JsonIgnore
 	public Set<BarberServ> getServices() {
 		return services;
 	}
