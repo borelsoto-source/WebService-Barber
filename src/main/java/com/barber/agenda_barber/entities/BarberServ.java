@@ -1,20 +1,22 @@
 package com.barber.agenda_barber.entities;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_service")
-public class BarberServ {
-
+public class BarberServ implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -24,6 +26,14 @@ public class BarberServ {
 	
 	@ManyToMany(mappedBy = "services")
 	private Set<Barber> barbers = new HashSet<>();
+	
+	/*
+	@ManyToMany(mappedBy = "service")
+	private Set<Scheduling> schedulings = new HashSet<>();
+	*/
+	
+	@OneToMany(mappedBy = "id.barberServ")
+	private Set<SchedulingItem> items = new HashSet<>();
 	
 	public BarberServ() {
 	}
@@ -72,6 +82,10 @@ public class BarberServ {
 		return barbers;
 	}
 
+	public Set<SchedulingItem> getItems() {
+		return items;
+	}
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
