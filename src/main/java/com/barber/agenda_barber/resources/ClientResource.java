@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.barber.agenda_barber.entities.Barber;
 import com.barber.agenda_barber.entities.Client;
 import com.barber.agenda_barber.services.ClientService;
 
